@@ -47,6 +47,8 @@ def main():
         print ('hhh' + str(last_update))
         if last_update != None:
             try:
+                with open('log.txt', 'a') as f:
+                    f.write(str(last_update) + '\n')
                 print ('im in')
                 last_update_id = last_update['update_id']
                 last_chat_text = last_update['message']['text']
@@ -94,7 +96,7 @@ def main():
         print ('end')
     
 
-greet_bot = BotHandler('')
+greet_bot = BotHandler('661638280:AAEy7QLbaML1e1V3VAbW8fBHDvGShz4pcGs')
 greetings = ('hello', 'hi', 'greetings', 'sup')
 now = datetime.datetime.now()
 print (now)
