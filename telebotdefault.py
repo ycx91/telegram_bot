@@ -25,10 +25,14 @@ class BotHandler:
         return resp
     def get_last_update(self):
         get_result = self.get_updates()
+        last_update = None
         if len(get_result) > 0:
             last_update = get_result[-1]
         else:
-            last_update = get_result[len(get_result)]
+            print ('error' + str(len(get_result)))
+            if len(get_result) != 0:
+                print ('ok')
+                last_update = get_result[len(get_result)]
         return last_update
 
 def main():  
@@ -40,27 +44,57 @@ def main():
         greet_bot.get_updates(new_offset)
         print (2)
         last_update = greet_bot.get_last_update()
-        print (last_update)
-        last_update_id = last_update['update_id']
-        last_chat_text = last_update['message']['text']
-        last_chat_id = last_update['message']['chat']['id']
-        last_chat_name = last_update['message']['chat']['first_name']
-        print (4)
-        print (last_chat_text.lower())
-        if last_chat_text.lower() in greetings and today == now.day and 0 <= hour < 12:
-            greet_bot.send_message(last_chat_id, 'Good Morning {}'.format(last_chat_name))
-            today += 1
-        elif last_chat_text.lower() in greetings and today == now.day and 12 <= hour < 17:
-            greet_bot.send_message(last_chat_id, 'Good Afternoon {}'.format(last_chat_name))
-            today += 1
-        elif last_chat_text.lower() in greetings and today == now.day and 17 <= hour < 23:
-            greet_bot.send_message(last_chat_id, 'Good Evening {}'.format(last_chat_name))
-            today += 1
+        print ('hhh' + str(last_update))
+        if last_update != None:
+            try:
+                print ('im in')
+                last_update_id = last_update['update_id']
+                last_chat_text = last_update['message']['text']
+                last_chat_id = last_update['message']['from']['id']
+#                last_chat_name = last_update['message']['from']['first_name']
+                
+            except Exception as e:
+                print (f'fail first {e}')
+                last_update_id = last_update['update_id']
+                last_chat_text = ''
+                last_chat_id = last_update['message']['from']['id']
+            try:
+                last_chat_username = last_update['message']['from']['username']
+            except Exception as e:
+                print (f'fail second {e}')
+                last_chat_username = last_update['message']['from']['first_name']
+            print (4)
+            print (last_chat_text.lower())
+            tag = 0
+            if last_chat_text.lower() =='/help':
+                print ('work in progress')
+                greet_bot.send_message(last_chat_id, r'This is still a work in progress ¯\_(ツ)_/¯')
+                tag = 1
+            if last_chat_text.lower().find('fuck') != -1:
+                print ('hehe')
+                greet_bot.send_message(last_chat_id, r'Fuck you too! {}'.format(last_chat_username))
+                tag = 1
+            if last_chat_text.lower().find('suck') != -1:
+                print ('hehehe')
+                greet_bot.send_message(last_chat_id, r'I know you love sucking! {} 😉💦😋'.format(last_chat_username))
+                tag = 1
+                
+            for greeting in greetings:
+                if last_chat_text.lower().startswith(greeting):
+                    tag = 1
+                    print (hour)
+                    greet_bot.send_message(last_chat_id, 'Yeah! Hello {}! Have a good day! '.format(last_chat_username))
+                else:
+                    if greeting == greetings[-1] and tag != 1:
+                        print (hour, today)
+                        greet_bot.send_message(last_chat_id, '😘 Thanks for testing out my bot, {}'.format(last_chat_username))
+#                    today += 1
+                    
         new_offset = last_update_id + 1
         print ('end')
     
 
-greet_bot = BotHandler('661638280:AAEy7QLbaML1e1V3VAbW8fBHDvGShz4pcGs')
+greet_bot = BotHandler('')
 greetings = ('hello', 'hi', 'greetings', 'sup')
 now = datetime.datetime.now()
 print (now)
