@@ -72,13 +72,13 @@ def main():
                 print ('work in progress')
                 greet_bot.send_message(last_chat_id, r'This is still a work in progress ¯\_(ツ)_/¯')
                 tag = 1
-            if last_chat_text.lower().find('fuck') != -1:
+            if last_chat_text.lower().find('f') != -1:
                 print ('hehe')
-                greet_bot.send_message(last_chat_id, r'Fuck you too! {}'.format(last_chat_username))
+                greet_bot.send_message(last_chat_id, r'F you too! {}'.format(last_chat_username))
                 tag = 1
-            if last_chat_text.lower().find('suck') != -1:
+            if last_chat_text.lower().find('ffffff') != -1:
                 print ('hehehe')
-                greet_bot.send_message(last_chat_id, r'I know you love sucking! {} 😉💦😋'.format(last_chat_username))
+                greet_bot.send_message(last_chat_id, r'😋'.format(last_chat_username))
                 tag = 1
                 
             for greeting in greetings:
